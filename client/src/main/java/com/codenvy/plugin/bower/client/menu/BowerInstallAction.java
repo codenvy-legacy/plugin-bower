@@ -13,15 +13,15 @@ package com.codenvy.plugin.bower.client.menu;
 import com.codenvy.api.analytics.logger.AnalyticsEventLogger;
 import com.codenvy.api.builder.BuildStatus;
 import com.codenvy.api.builder.dto.BuildOptions;
-import com.codenvy.ide.api.resources.ResourceProvider;
-import com.codenvy.ide.api.resources.model.Project;
-import com.codenvy.ide.api.ui.action.ActionEvent;
+import com.codenvy.ide.api.action.ActionEvent;
+import com.codenvy.ide.api.app.AppContext;
+import com.codenvy.ide.api.event.RefreshProjectTreeEvent;
 import com.codenvy.ide.dto.DtoFactory;
 import com.codenvy.plugin.bower.client.BowerExtension;
 import com.codenvy.plugin.bower.client.builder.BuildFinishedCallback;
 import com.codenvy.plugin.bower.client.builder.BuilderAgent;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
+import com.google.web.bindery.event.shared.EventBus;
 
 import java.util.Arrays;
 import java.util.List;
@@ -36,7 +36,7 @@ public class BowerInstallAction extends CustomAction implements BuildFinishedCal
 
     private BuilderAgent builderAgent;
 
-    private ResourceProvider resourceProvider;
+    private EventBus eventBus;
 
     private boolean buildInProgress;
 
@@ -44,13 +44,13 @@ public class BowerInstallAction extends CustomAction implements BuildFinishedCal
 
     @Inject
     public BowerInstallAction(LocalizationConstant localizationConstant,
-                              DtoFactory dtoFactory, BuilderAgent builderAgent, ResourceProvider resourceProvider,
+                              DtoFactory dtoFactory, BuilderAgent builderAgent, AppContext appContext, EventBus eventBus,
                               AnalyticsEventLogger analyticsEventLogger) {
-        super(resourceProvider, localizationConstant.bowerInstallText(), localizationConstant.bowerInstallDescription());
+        super(appContext, localizationConstant.bowerInstallText(), localizationConstant.bowerInstallDescription());
         this.dtoFactory = dtoFactory;
         this.builderAgent = builderAgent;
-        this.resourceProvider = resourceProvider;
         this.analyticsEventLogger = analyticsEventLogger;
+        this.eventBus = eventBus;
     }
 
     /** {@inheritDoc} */
@@ -71,23 +71,11 @@ public class BowerInstallAction extends CustomAction implements BuildFinishedCal
 
     @Override
     public void onFinished(BuildStatus buildStatus) {
-
-
         // and refresh the tree if success
         if (buildStatus == BuildStatus.SUCCESSFUL) {
-            resourceProvider.getActiveProject().refreshChildren(new AsyncCallback<Project>() {
-                @Override
-                public void onSuccess(Project result) {
-                }
-
-                @Override
-                public void onFailure(Throwable caught) {
-                }
-            });
+            eventBus.fireEvent(new RefreshProjectTreeEvent());
         }
         buildInProgress = false;
-
-
     }
 
     /** {@inheritDoc} */
@@ -96,6 +84,5 @@ public class BowerInstallAction extends CustomAction implements BuildFinishedCal
         super.update(e);
         e.getPresentation().setEnabled(!buildInProgress);
     }
-
 
 }

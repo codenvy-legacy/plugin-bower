@@ -11,14 +11,10 @@
 package com.codenvy.plugin.bower.client.menu;
 
 
-import com.codenvy.api.analytics.logger.AnalyticsEventLogger;
-import com.codenvy.ide.api.resources.ResourceProvider;
-import com.codenvy.ide.api.resources.model.Project;
-import com.codenvy.ide.api.ui.action.Action;
-import com.codenvy.ide.api.ui.action.ActionEvent;
-import com.codenvy.ide.api.ui.action.ActionManager;
-import com.codenvy.ide.api.ui.action.DefaultActionGroup;
-import com.google.inject.Inject;
+import com.codenvy.ide.api.action.Action;
+import com.codenvy.ide.api.action.ActionEvent;
+import com.codenvy.ide.api.app.AppContext;
+import com.codenvy.ide.api.app.CurrentProject;
 
 /**
  * Allow to hide elements if the current project is not an angular project.
@@ -26,19 +22,19 @@ import com.google.inject.Inject;
  */
 public abstract class CustomAction extends Action {
 
-    private ResourceProvider resourceProvider;
+    private AppContext appContext;
 
-    public CustomAction(ResourceProvider resourceProvider, String name, String description) {
+    public CustomAction(AppContext appContext, String name, String description) {
         super(name, description, null);
-        this.resourceProvider = resourceProvider;
+        this.appContext = appContext;
     }
 
         /** {@inheritDoc} */
         @Override
         public void update (ActionEvent e){
-            Project activeProject = resourceProvider.getActiveProject();
+            CurrentProject activeProject = appContext.getCurrentProject();
             if (activeProject != null) {
-                final String projectTypeId = activeProject.getDescription().getProjectTypeId();
+                final String projectTypeId = activeProject.getProjectDescription().getProjectTypeId();
                 boolean isAngularJSProject = "AngularJS".equals(projectTypeId);
                 e.getPresentation().setVisible(isAngularJSProject);
             } else {

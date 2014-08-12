@@ -10,25 +10,29 @@
  *******************************************************************************/
 package com.codenvy.plugin.bower.client;
 
+import com.codenvy.api.project.gwt.client.ProjectServiceClient;
+import com.codenvy.api.project.shared.dto.ItemReference;
+import com.codenvy.api.project.shared.dto.ProjectDescriptor;
+import com.codenvy.api.project.shared.dto.TreeElement;
+import com.codenvy.ide.api.action.ActionManager;
+import com.codenvy.ide.api.action.Constraints;
+import com.codenvy.ide.api.action.DefaultActionGroup;
 import com.codenvy.ide.api.event.ProjectActionEvent;
 import com.codenvy.ide.api.event.ProjectActionHandler;
 import com.codenvy.ide.api.extension.Extension;
-import com.codenvy.ide.api.resources.model.Folder;
-import com.codenvy.ide.api.resources.model.Project;
-import com.codenvy.ide.api.resources.model.Resource;
-import com.codenvy.ide.api.ui.action.ActionManager;
-import com.codenvy.ide.api.ui.action.Constraints;
-import com.codenvy.ide.api.ui.action.DefaultActionGroup;
 import com.codenvy.ide.extension.builder.client.BuilderLocalizationConstant;
+import com.codenvy.ide.rest.AsyncRequestCallback;
+import com.codenvy.ide.rest.DtoUnmarshallerFactory;
+import com.codenvy.ide.rest.Unmarshallable;
 import com.codenvy.plugin.bower.client.menu.BowerInstallAction;
 import com.codenvy.plugin.bower.client.menu.LocalizationConstant;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.web.bindery.event.shared.EventBus;
 
-import static com.codenvy.ide.api.ui.action.Anchor.AFTER;
-import static com.codenvy.ide.api.ui.action.IdeActions.GROUP_BUILD;
+import static com.codenvy.ide.api.action.Anchor.AFTER;
+import static com.codenvy.ide.api.action.IdeActions.GROUP_BUILD;
+
 
 /**
  * Extension registering Bower commands
@@ -43,7 +47,9 @@ public class BowerExtension {
                           BuilderLocalizationConstant builderLocalizationConstant,
                           LocalizationConstant localizationConstantBower,
                           final BowerInstallAction bowerInstallAction,
-                          EventBus eventBus) {
+                          EventBus eventBus,
+                          final ProjectServiceClient projectServiceClient,
+                          final DtoUnmarshallerFactory dtoUnmarshallerFactory) {
 
         actionManager.registerAction(localizationConstantBower.bowerInstallId(), bowerInstallAction);
 
@@ -61,52 +67,67 @@ public class BowerExtension {
             @Override
             public void onProjectOpened(ProjectActionEvent event) {
 
-                Project project = event.getProject();
-                final String projectTypeId = project.getDescription().getProjectTypeId();
+                final ProjectDescriptor project = event.getProject();
+                final String projectTypeId = project.getProjectTypeId();
                 boolean isAngularJSProject = "AngularJS".equals(projectTypeId);
                 if (isAngularJSProject) {
 
                     // Check if there is bower.json file
-                    Resource bowerJsonFile = project.findChildByName("bower.json");
-                    if (bowerJsonFile != null) {
-                        final Resource appDirectory = project.findChildByName("app");
-                        if (appDirectory != null && appDirectory instanceof Folder) {
-                            project.refreshChildren((Folder) appDirectory, new AsyncCallback<Folder>() {
+                    projectServiceClient.getFileContent(project.getPath() + "bower.json", new AsyncRequestCallback<String>() {
+                        @Override
+                        protected void onSuccess(String result) {
+                            Unmarshallable<TreeElement> unmarshaller = dtoUnmarshallerFactory.newUnmarshaller(TreeElement.class);
+                            projectServiceClient.getTree(project.getPath(), 2, new AsyncRequestCallback<TreeElement>(unmarshaller) {
                                 @Override
-                                public void onFailure(Throwable caught) {
-
-                                }
-
-                                @Override
-                                public void onSuccess(Folder result) {
-                                    // Bower configured for the project but not yet initialized ?
-                                    Resource bowerComponentsDirectory = ((Folder) appDirectory).findChildByName("bower_components");
-                                    if (bowerComponentsDirectory == null) {
-                                        // Install bower dependencies as the folder doesn't exist
-                                        bowerInstallAction.installDependencies();
+                                protected void onSuccess(TreeElement treeElement) {
+                                    ItemReference appDirectory = null;
+                                    ItemReference bowerComponentsDirectory = null;
+                                    for (TreeElement element : treeElement.getChildren()) {
+                                        if ("app".equals(element.getNode().getName()) && "folder".equals(element.getNode().getType())) {
+                                            appDirectory = element.getNode();
+                                            for (TreeElement e : element.getChildren()) {
+                                                if ("bower_components".equals(e.getNode().getName()) && "folder".equals(
+                                                        e.getNode().getType())) {
+                                                    bowerComponentsDirectory = e.getNode();
+                                                    break;
+                                                }
+                                            }
+                                            break;
+                                        }
                                     }
 
+                                    if (appDirectory != null) {
+                                        // Bower configured for the project but not yet initialized ?
+                                        if (bowerComponentsDirectory == null) {
+                                            // Install bower dependencies as the 'app/bower_components' folder doesn't exist
+                                            bowerInstallAction.installDependencies();
+                                        }
+                                    } else {
+                                        // Install bower dependencies as the 'app' folder has not been found
+                                        bowerInstallAction.installDependencies();
+                                    }
+                                }
+
+                                @Override
+                                protected void onFailure(Throwable ignore) {
+                                    // nothing to do
                                 }
                             });
-                        } else {
-                            // Install bower dependencies as the folder has not been found
-                            bowerInstallAction.installDependencies();
                         }
-                    }
 
+                        @Override
+                        protected void onFailure(Throwable ignore) {
+                            // nothing to do
+                        }
+                    });
                 }
-
             }
-
 
             @Override
             public void onProjectClosed(ProjectActionEvent event) {
 
             }
 
-            @Override
-            public void onProjectDescriptionChanged(ProjectActionEvent event) {
-            }
         });
 
     }
