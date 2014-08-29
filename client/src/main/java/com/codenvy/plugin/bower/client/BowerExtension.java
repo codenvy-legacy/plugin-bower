@@ -15,7 +15,7 @@ import com.codenvy.api.project.shared.dto.ItemReference;
 import com.codenvy.api.project.shared.dto.ProjectDescriptor;
 import com.codenvy.api.project.shared.dto.TreeElement;
 import com.codenvy.ide.api.action.ActionManager;
-import com.codenvy.ide.api.action.Constraints;
+import com.codenvy.ide.api.constraints.Constraints;
 import com.codenvy.ide.api.action.DefaultActionGroup;
 import com.codenvy.ide.api.event.ProjectActionEvent;
 import com.codenvy.ide.api.event.ProjectActionHandler;
@@ -30,7 +30,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.web.bindery.event.shared.EventBus;
 
-import static com.codenvy.ide.api.action.Anchor.AFTER;
+import static com.codenvy.ide.api.constraints.Anchor.AFTER;
 import static com.codenvy.ide.api.action.IdeActions.GROUP_BUILD;
 
 
