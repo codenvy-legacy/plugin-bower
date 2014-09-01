@@ -70,10 +70,16 @@ public class BowerExtension {
                 final ProjectDescriptor project = event.getProject();
                 final String projectTypeId = project.getProjectTypeId();
                 boolean isAngularJSProject = "AngularJS".equals(projectTypeId);
+
+                String projectPath = project.getPath();
+                if (!projectPath.endsWith("/")) {
+                    projectPath += "/";
+                }
+
                 if (isAngularJSProject) {
 
                     // Check if there is bower.json file
-                    projectServiceClient.getFileContent(project.getPath() + "bower.json", new AsyncRequestCallback<String>() {
+                    projectServiceClient.getFileContent(projectPath + "bower.json", new AsyncRequestCallback<String>() {
                         @Override
                         protected void onSuccess(String result) {
                             Unmarshallable<TreeElement> unmarshaller = dtoUnmarshallerFactory.newUnmarshaller(TreeElement.class);
