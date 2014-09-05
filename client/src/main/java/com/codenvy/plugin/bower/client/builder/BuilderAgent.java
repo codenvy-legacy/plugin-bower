@@ -267,7 +267,7 @@ public class BuilderAgent {
         }
 
         // import zip
-        importZipResult(descriptor, buildFinishedCallback);
+        importZipResult(descriptor, buildFinishedCallback, notification, errorMessage);
 
 
     }
@@ -277,7 +277,7 @@ public class BuilderAgent {
      * @param descriptor the build descriptor
      * @param buildFinishedCallback the callback to call
      */
-    protected void importZipResult(final BuildTaskDescriptor descriptor, final BuildFinishedCallback buildFinishedCallback) {
+    protected void importZipResult(final BuildTaskDescriptor descriptor, final BuildFinishedCallback buildFinishedCallback, final Notification notification, final String errorMessage) {
         Link downloadLink = null;
         List<Link> links = descriptor.getLinks();
         for (Link link : links) {
@@ -302,6 +302,9 @@ public class BuilderAgent {
 
                 @Override
                 protected void onFailure(Throwable throwable) {
+                    notification.setMessage(errorMessage + ":" + throwable.getMessage());
+                    notification.setStatus(FINISHED);
+                    notification.setType(ERROR);
                     if (buildFinishedCallback != null) {
                         buildFinishedCallback.onFinished(descriptor.getStatus());
                     }
