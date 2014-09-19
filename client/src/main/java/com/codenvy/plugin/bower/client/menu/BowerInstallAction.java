@@ -41,14 +41,19 @@ public class BowerInstallAction extends CustomAction implements BuildFinishedCal
     private boolean buildInProgress;
 
     private final AnalyticsEventLogger analyticsEventLogger;
+    private       AppContext           appContext;
 
     @Inject
     public BowerInstallAction(LocalizationConstant localizationConstant,
-                              DtoFactory dtoFactory, BuilderAgent builderAgent, AppContext appContext, EventBus eventBus,
+                              DtoFactory dtoFactory,
+                              BuilderAgent builderAgent,
+                              AppContext appContext,
+                              EventBus eventBus,
                               AnalyticsEventLogger analyticsEventLogger) {
         super(appContext, localizationConstant.bowerInstallText(), localizationConstant.bowerInstallDescription());
         this.dtoFactory = dtoFactory;
         this.builderAgent = builderAgent;
+        this.appContext = appContext;
         this.analyticsEventLogger = analyticsEventLogger;
         this.eventBus = eventBus;
     }
@@ -76,6 +81,7 @@ public class BowerInstallAction extends CustomAction implements BuildFinishedCal
             eventBus.fireEvent(new RefreshProjectTreeEvent());
         }
         buildInProgress = false;
+        appContext.getCurrentProject().setIsRunningEnabled(true);
     }
 
     /** {@inheritDoc} */

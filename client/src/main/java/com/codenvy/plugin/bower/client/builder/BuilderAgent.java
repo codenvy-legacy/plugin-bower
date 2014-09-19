@@ -127,6 +127,7 @@ public class BuilderAgent {
                                                startChecking(notification, result, successMessage, errorMessage, prefixConsole,
                                                              buildFinishedCallback);
                                                notification.setStatus(PROGRESS);
+                                               appContext.getCurrentProject().setIsRunningEnabled(false);
                                            }
 
                                        }
