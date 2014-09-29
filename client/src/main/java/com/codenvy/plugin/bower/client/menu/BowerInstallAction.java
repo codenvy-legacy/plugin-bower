@@ -61,7 +61,7 @@ public class BowerInstallAction extends CustomAction implements BuildFinishedCal
     /** {@inheritDoc} */
     @Override
     public void actionPerformed(ActionEvent e) {
-        analyticsEventLogger.log(BowerExtension.class, "Install Bower");
+        analyticsEventLogger.log(this);
         installDependencies();
     }
 
