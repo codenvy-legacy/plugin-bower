@@ -17,7 +17,7 @@ import com.codenvy.ide.api.action.ActionEvent;
 import com.codenvy.ide.api.app.AppContext;
 import com.codenvy.ide.api.event.RefreshProjectTreeEvent;
 import com.codenvy.ide.dto.DtoFactory;
-import com.codenvy.plugin.bower.client.BowerExtension;
+import com.codenvy.plugin.bower.client.BowerResources;
 import com.codenvy.plugin.bower.client.builder.BuildFinishedCallback;
 import com.codenvy.plugin.bower.client.builder.BuilderAgent;
 import com.google.inject.Inject;
@@ -49,8 +49,9 @@ public class BowerInstallAction extends CustomAction implements BuildFinishedCal
                               BuilderAgent builderAgent,
                               AppContext appContext,
                               EventBus eventBus,
+                              BowerResources bowerResources,
                               AnalyticsEventLogger analyticsEventLogger) {
-        super(appContext, localizationConstant.bowerInstallText(), localizationConstant.bowerInstallDescription());
+        super(appContext, localizationConstant.bowerInstallText(), localizationConstant.bowerInstallDescription(), bowerResources.buildIcon());
         this.dtoFactory = dtoFactory;
         this.builderAgent = builderAgent;
         this.appContext = appContext;

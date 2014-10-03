@@ -16,6 +16,8 @@ import com.codenvy.ide.api.action.ActionEvent;
 import com.codenvy.ide.api.app.AppContext;
 import com.codenvy.ide.api.app.CurrentProject;
 
+import org.vectomatic.dom.svg.ui.SVGResource;
+
 /**
  * Allow to hide elements if the current project is not an angular project.
  * @author Florent Benoit
@@ -24,8 +26,8 @@ public abstract class CustomAction extends Action {
 
     private AppContext appContext;
 
-    public CustomAction(AppContext appContext, String name, String description) {
-        super(name, description, null);
+    public CustomAction(AppContext appContext, String name, String description, SVGResource svgResource) {
+        super(name, description, null, svgResource);
         this.appContext = appContext;
     }
 
