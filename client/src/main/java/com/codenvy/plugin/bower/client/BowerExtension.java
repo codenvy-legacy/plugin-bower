@@ -68,7 +68,7 @@ public class BowerExtension {
             public void onProjectOpened(ProjectActionEvent event) {
 
                 final ProjectDescriptor project = event.getProject();
-                final String projectTypeId = project.getProjectTypeId();
+                final String projectTypeId = project.getType();
                 boolean isAngularJSProject = "AngularJS".equals(projectTypeId);
 
                 String projectPath = project.getPath();
