@@ -39,7 +39,7 @@ import static com.codenvy.ide.api.action.IdeActions.GROUP_BUILD;
  * @author Florent Benoit
  */
 @Singleton
-@Extension(title = "Bower extension")
+@Extension(title = "Bower")
 public class BowerExtension {
 
     @Inject
