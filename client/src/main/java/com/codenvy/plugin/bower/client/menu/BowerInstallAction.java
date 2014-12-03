@@ -10,7 +10,7 @@
  *******************************************************************************/
 package com.codenvy.plugin.bower.client.menu;
 
-import com.codenvy.api.analytics.logger.AnalyticsEventLogger;
+import com.codenvy.api.analytics.client.logger.AnalyticsEventLogger;
 import com.codenvy.api.builder.BuildStatus;
 import com.codenvy.api.builder.dto.BuildOptions;
 import com.codenvy.ide.api.action.ActionEvent;
