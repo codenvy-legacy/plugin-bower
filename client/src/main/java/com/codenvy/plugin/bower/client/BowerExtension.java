@@ -14,6 +14,7 @@ import com.codenvy.api.project.gwt.client.ProjectServiceClient;
 import com.codenvy.api.project.shared.dto.ItemReference;
 import com.codenvy.api.project.shared.dto.ProjectDescriptor;
 import com.codenvy.api.project.shared.dto.TreeElement;
+import com.codenvy.ide.Constants;
 import com.codenvy.ide.api.action.ActionManager;
 import com.codenvy.ide.api.constraints.Constraints;
 import com.codenvy.ide.api.action.DefaultActionGroup;
@@ -29,6 +30,11 @@ import com.codenvy.plugin.bower.client.menu.LocalizationConstant;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.web.bindery.event.shared.EventBus;
+
+import javax.annotation.Nonnull;
+
+import java.util.List;
+import java.util.Map;
 
 import static com.codenvy.ide.api.constraints.Anchor.AFTER;
 import static com.codenvy.ide.api.action.IdeActions.GROUP_BUILD;
@@ -68,15 +74,14 @@ public class BowerExtension {
             public void onProjectOpened(ProjectActionEvent event) {
 
                 final ProjectDescriptor project = event.getProject();
-                final String projectTypeId = project.getType();
-                boolean isAngularJSProject = "AngularJS".equals(projectTypeId);
+                boolean isBowerJsProject = isBowerJsProject(project);
 
                 String projectPath = project.getPath();
                 if (!projectPath.endsWith("/")) {
                     projectPath += "/";
                 }
 
-                if (isAngularJSProject) {
+                if (isBowerJsProject) {
 
                     // Check if there is bower.json file
                     projectServiceClient.getFileContent(projectPath + "bower.json", new AsyncRequestCallback<String>() {
@@ -136,5 +141,15 @@ public class BowerExtension {
 
         });
 
+    }
+
+
+    private boolean isBowerJsProject(@Nonnull ProjectDescriptor projectDescriptor) {
+        Map<String, List<String>> attributes = projectDescriptor.getAttributes();
+        if (attributes.containsKey(Constants.FRAMEWORK)) {
+            List<String> frameworks = attributes.get(Constants.FRAMEWORK);
+            return frameworks.contains("AngularJS") || frameworks.contains("BasicJS");
+        }
+        return false;
     }
 }
