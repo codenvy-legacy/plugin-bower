@@ -8,35 +8,35 @@
  * Contributors:
  *   Codenvy, S.A. - initial API and implementation
  *******************************************************************************/
-package com.codenvy.plugin.bower.client.builder;
+package org.eclipse.che.plugin.bower.client.builder;
 
-import com.codenvy.api.builder.BuildStatus;
-import com.codenvy.api.builder.dto.BuildOptions;
-import com.codenvy.api.builder.dto.BuildTaskDescriptor;
-import com.codenvy.api.builder.gwt.client.BuilderServiceClient;
-import com.codenvy.api.core.rest.shared.dto.Link;
-import com.codenvy.api.project.gwt.client.ProjectServiceClient;
-import com.codenvy.api.project.shared.dto.ImportProject;
-import com.codenvy.api.project.shared.dto.ImportResponse;
-import com.codenvy.api.project.shared.dto.ImportSourceDescriptor;
-import com.codenvy.api.project.shared.dto.Source;
-import com.codenvy.ide.api.app.AppContext;
-import com.codenvy.ide.api.notification.Notification;
-import com.codenvy.ide.api.notification.NotificationManager;
-import com.codenvy.ide.commons.exception.ExceptionThrownEvent;
-import com.codenvy.ide.commons.exception.UnmarshallerException;
-import com.codenvy.ide.dto.DtoFactory;
-import com.codenvy.ide.extension.builder.client.BuilderExtension;
-import com.codenvy.ide.extension.builder.client.console.BuilderConsolePresenter;
-import com.codenvy.ide.rest.AsyncRequestCallback;
-import com.codenvy.ide.rest.DtoUnmarshallerFactory;
-import com.codenvy.ide.util.loging.Log;
-import com.codenvy.ide.websocket.Message;
-import com.codenvy.ide.websocket.MessageBus;
-import com.codenvy.ide.websocket.WebSocketException;
-import com.codenvy.ide.websocket.rest.StringUnmarshallerWS;
-import com.codenvy.ide.websocket.rest.SubscriptionHandler;
-import com.codenvy.ide.websocket.rest.Unmarshallable;
+import org.eclipse.che.api.builder.BuildStatus;
+import org.eclipse.che.api.builder.dto.BuildOptions;
+import org.eclipse.che.api.builder.dto.BuildTaskDescriptor;
+import org.eclipse.che.api.builder.gwt.client.BuilderServiceClient;
+import org.eclipse.che.api.core.rest.shared.dto.Link;
+import org.eclipse.che.api.project.gwt.client.ProjectServiceClient;
+import org.eclipse.che.api.project.shared.dto.ImportProject;
+import org.eclipse.che.api.project.shared.dto.ImportResponse;
+import org.eclipse.che.api.project.shared.dto.ImportSourceDescriptor;
+import org.eclipse.che.api.project.shared.dto.Source;
+import org.eclipse.che.ide.api.app.AppContext;
+import org.eclipse.che.ide.api.notification.Notification;
+import org.eclipse.che.ide.api.notification.NotificationManager;
+import org.eclipse.che.ide.commons.exception.ExceptionThrownEvent;
+import org.eclipse.che.ide.commons.exception.UnmarshallerException;
+import org.eclipse.che.ide.dto.DtoFactory;
+import org.eclipse.che.ide.extension.builder.client.BuilderExtension;
+import org.eclipse.che.ide.extension.builder.client.console.BuilderConsolePresenter;
+import org.eclipse.che.ide.rest.AsyncRequestCallback;
+import org.eclipse.che.ide.rest.DtoUnmarshallerFactory;
+import org.eclipse.che.ide.util.loging.Log;
+import org.eclipse.che.ide.websocket.Message;
+import org.eclipse.che.ide.websocket.MessageBus;
+import org.eclipse.che.ide.websocket.WebSocketException;
+import org.eclipse.che.ide.websocket.rest.StringUnmarshallerWS;
+import org.eclipse.che.ide.websocket.rest.SubscriptionHandler;
+import org.eclipse.che.ide.websocket.rest.Unmarshallable;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 import com.google.web.bindery.event.shared.EventBus;
@@ -44,10 +44,10 @@ import com.google.web.bindery.event.shared.EventBus;
 import javax.inject.Inject;
 import java.util.List;
 
-import static com.codenvy.ide.api.notification.Notification.Status.FINISHED;
-import static com.codenvy.ide.api.notification.Notification.Status.PROGRESS;
-import static com.codenvy.ide.api.notification.Notification.Type.ERROR;
-import static com.codenvy.ide.api.notification.Notification.Type.INFO;
+import static org.eclipse.che.ide.api.notification.Notification.Status.FINISHED;
+import static org.eclipse.che.ide.api.notification.Notification.Status.PROGRESS;
+import static org.eclipse.che.ide.api.notification.Notification.Type.ERROR;
+import static org.eclipse.che.ide.api.notification.Notification.Type.INFO;
 
 /**
  * @author Florent Benoit

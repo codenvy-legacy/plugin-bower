@@ -8,22 +8,19 @@
  * Contributors:
  *   Codenvy, S.A. - initial API and implementation
  *******************************************************************************/
-package com.codenvy.plugin.bower.client.menu;
 
-import com.google.gwt.i18n.client.Messages;
+package org.eclipse.che.plugin.bower.client;
+
+import com.google.gwt.resources.client.ClientBundle;
+
+import org.vectomatic.dom.svg.ui.SVGResource;
 
 /**
- * Gets properties.
+ * Defines the resources for Bower plugin
  * @author Florent Benoit
  */
-public interface LocalizationConstant extends Messages {
+public interface BowerResources extends ClientBundle {
 
-    @Key("control.bowerInstall.id")
-    String bowerInstallId();
-
-    @Key("control.bowerInstall.text")
-    String bowerInstallText();
-
-    @Key("control.bowerInstall.description")
-    String bowerInstallDescription();
-}
+        @Source("bower.svg")
+        SVGResource buildIcon();
+    }

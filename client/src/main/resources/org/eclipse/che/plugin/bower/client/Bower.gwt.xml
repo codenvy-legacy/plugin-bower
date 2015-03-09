@@ -13,10 +13,10 @@
 -->
 <module>
     <inherits name="com.google.gwt.user.User"/>
-    <inherits name="com.codenvy.ide.Api"/>
-    <inherits name="com.codenvy.ide.Core"/>
+    <inherits name="org.eclipse.che.ide.Api"/>
+    <inherits name="org.eclipse.che.ide.Core"/>
     <inherits name="com.google.gwt.inject.Inject"/>
-    <inherits name="com.codenvy.ide.collections.Collections"/>
-    <inherits name="com.codenvy.ide.ext.web.Web" />
+    <inherits name="org.eclipse.che.ide.collections.Collections"/>
+    <inherits name="org.eclipse.che.ide.ext.web.Web" />
     <source path=""/>
 </module>

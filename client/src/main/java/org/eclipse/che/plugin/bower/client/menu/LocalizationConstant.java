@@ -8,14 +8,22 @@
  * Contributors:
  *   Codenvy, S.A. - initial API and implementation
  *******************************************************************************/
-package com.codenvy.plugin.bower.client.builder;
+package org.eclipse.che.plugin.bower.client.menu;
 
-import com.codenvy.api.builder.BuildStatus;
+import com.google.gwt.i18n.client.Messages;
 
 /**
+ * Gets properties.
  * @author Florent Benoit
  */
-public interface BuildFinishedCallback {
+public interface LocalizationConstant extends Messages {
 
-    void onFinished(BuildStatus buildStatus);
+    @Key("control.bowerInstall.id")
+    String bowerInstallId();
+
+    @Key("control.bowerInstall.text")
+    String bowerInstallText();
+
+    @Key("control.bowerInstall.description")
+    String bowerInstallDescription();
 }

@@ -8,16 +8,16 @@
  * Contributors:
  *   Codenvy, S.A. - initial API and implementation
  *******************************************************************************/
-package com.codenvy.plugin.angularjs.builder;
+package org.eclipse.che.plugin.angularjs.builder;
 
-import com.codenvy.api.builder.BuilderException;
-import com.codenvy.api.builder.internal.BuildResult;
-import com.codenvy.api.builder.internal.Builder;
-import com.codenvy.api.builder.internal.BuilderConfiguration;
-import com.codenvy.api.builder.internal.Constants;
-import com.codenvy.api.core.notification.EventService;
-import com.codenvy.api.core.util.CommandLine;
-import com.codenvy.commons.lang.ZipUtils;
+import org.eclipse.che.api.builder.BuilderException;
+import org.eclipse.che.api.builder.internal.BuildResult;
+import org.eclipse.che.api.builder.internal.Builder;
+import org.eclipse.che.api.builder.internal.BuilderConfiguration;
+import org.eclipse.che.api.builder.internal.Constants;
+import org.eclipse.che.api.core.notification.EventService;
+import org.eclipse.che.api.core.util.CommandLine;
+import org.eclipse.che.commons.lang.ZipUtils;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -88,7 +88,7 @@ public class BowerBuilder extends Builder {
      * @param config
      *         the configuration that may help to build the command line
      * @return the command line
-     * @throws com.codenvy.api.builder.BuilderException
+     * @throws org.eclipse.che.api.builder.BuilderException
      *         if command line can't be build
      */
     @Override
@@ -111,7 +111,7 @@ public class BowerBuilder extends Builder {
      *         Note: {@code true} is not indicated successful build but only normal process termination. Build itself may be unsuccessful
      *         because to compilation error, failed tests, etc.
      * @return
-     * @throws com.codenvy.api.builder.BuilderException
+     * @throws org.eclipse.che.api.builder.BuilderException
      */
     @Override
     protected BuildResult getTaskResult(final FutureBuildTask task, boolean successful) throws BuilderException {

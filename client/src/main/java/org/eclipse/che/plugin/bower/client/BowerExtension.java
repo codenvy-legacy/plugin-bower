@@ -8,25 +8,25 @@
  * Contributors:
  *   Codenvy, S.A. - initial API and implementation
  *******************************************************************************/
-package com.codenvy.plugin.bower.client;
+package org.eclipse.che.plugin.bower.client;
 
-import com.codenvy.api.project.gwt.client.ProjectServiceClient;
-import com.codenvy.api.project.shared.dto.ItemReference;
-import com.codenvy.api.project.shared.dto.ProjectDescriptor;
-import com.codenvy.api.project.shared.dto.TreeElement;
-import com.codenvy.ide.Constants;
-import com.codenvy.ide.api.action.ActionManager;
-import com.codenvy.ide.api.constraints.Constraints;
-import com.codenvy.ide.api.action.DefaultActionGroup;
-import com.codenvy.ide.api.event.ProjectActionEvent;
-import com.codenvy.ide.api.event.ProjectActionHandler;
-import com.codenvy.ide.api.extension.Extension;
-import com.codenvy.ide.extension.builder.client.BuilderLocalizationConstant;
-import com.codenvy.ide.rest.AsyncRequestCallback;
-import com.codenvy.ide.rest.DtoUnmarshallerFactory;
-import com.codenvy.ide.rest.Unmarshallable;
-import com.codenvy.plugin.bower.client.menu.BowerInstallAction;
-import com.codenvy.plugin.bower.client.menu.LocalizationConstant;
+import org.eclipse.che.api.project.gwt.client.ProjectServiceClient;
+import org.eclipse.che.api.project.shared.dto.ItemReference;
+import org.eclipse.che.api.project.shared.dto.ProjectDescriptor;
+import org.eclipse.che.api.project.shared.dto.TreeElement;
+import org.eclipse.che.ide.Constants;
+import org.eclipse.che.ide.api.action.ActionManager;
+import org.eclipse.che.ide.api.constraints.Constraints;
+import org.eclipse.che.ide.api.action.DefaultActionGroup;
+import org.eclipse.che.ide.api.event.ProjectActionEvent;
+import org.eclipse.che.ide.api.event.ProjectActionHandler;
+import org.eclipse.che.ide.api.extension.Extension;
+import org.eclipse.che.ide.extension.builder.client.BuilderLocalizationConstant;
+import org.eclipse.che.ide.rest.AsyncRequestCallback;
+import org.eclipse.che.ide.rest.DtoUnmarshallerFactory;
+import org.eclipse.che.ide.rest.Unmarshallable;
+import org.eclipse.che.plugin.bower.client.menu.BowerInstallAction;
+import org.eclipse.che.plugin.bower.client.menu.LocalizationConstant;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.web.bindery.event.shared.EventBus;
@@ -36,8 +36,8 @@ import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Map;
 
-import static com.codenvy.ide.api.constraints.Anchor.AFTER;
-import static com.codenvy.ide.api.action.IdeActions.GROUP_BUILD;
+import static org.eclipse.che.ide.api.constraints.Anchor.AFTER;
+import static org.eclipse.che.ide.api.action.IdeActions.GROUP_BUILD;
 
 
 /**

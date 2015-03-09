@@ -8,10 +8,10 @@
  * Contributors:
  *   Codenvy, S.A. - initial API and implementation
  *******************************************************************************/
-package com.codenvy.plugin.angularjs.builder;
+package org.eclipse.che.plugin.angularjs.builder;
 
-import com.codenvy.api.builder.internal.Builder;
-import com.codenvy.inject.DynaModule;
+import org.eclipse.che.api.builder.internal.Builder;
+import org.eclipse.che.inject.DynaModule;
 import com.google.inject.AbstractModule;
 import com.google.inject.multibindings.Multibinder;
 

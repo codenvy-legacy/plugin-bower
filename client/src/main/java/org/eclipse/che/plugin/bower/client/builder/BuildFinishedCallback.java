@@ -8,19 +8,14 @@
  * Contributors:
  *   Codenvy, S.A. - initial API and implementation
  *******************************************************************************/
+package org.eclipse.che.plugin.bower.client.builder;
 
-package com.codenvy.plugin.bower.client;
-
-import com.google.gwt.resources.client.ClientBundle;
-
-import org.vectomatic.dom.svg.ui.SVGResource;
+import org.eclipse.che.api.builder.BuildStatus;
 
 /**
- * Defines the resources for Bower plugin
  * @author Florent Benoit
  */
-public interface BowerResources extends ClientBundle {
+public interface BuildFinishedCallback {
 
-        @Source("bower.svg")
-        SVGResource buildIcon();
-    }
+    void onFinished(BuildStatus buildStatus);
+}
